@@ -15,10 +15,11 @@ sudo apt install python3.8
 python3 utils.py
 ```
 
-The program has all the functions printed for the testing file (random.txt)
-To get the output on custom text, the random.txt has to be overriden with the sample text.
+The program has all the functions printed for the testing file (random.txt) on the asked questions.
 
-Either way, these functions are from utils can also used as library. For eg:- 
+To get the output on sample/custom text, the random.txt has to be overriden with the sample/custom text and program has to be re-run again.
+
+Either way, utils.py serves as the library for the function. Hence, below function statement (as an example ) import would also work in any other python file when this library is integrated in the project structure.
 
 ```
 from utils import average_letters
