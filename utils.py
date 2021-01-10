@@ -1,50 +1,60 @@
 from collections import Counter
 import os
+from pathlib import Path
 
-current_dir = os.getcwd()
-file_open = open(current_dir, "r")
+file_name = input("Enter the file name (Eg. random.txt): ")
+file_path = Path(os.getcwd()) / file_name
+file_open = open(file_path, "r")
+lines = file_open.readlines()
 
-def word_count(d_file):
+def clean_text(text):
+    text = text.translate ({ord(c): " " for c in "!@#$%^&*()[]{};:,./<>?\|`~-=_+"})
+    return text
+
+def word_count(lines):
     sum_words = 0
     try:
-        lines = d_file.readlines()
         if len(lines) > 0:
             for line in lines:
-                clean_text = line.strip()
-                sum_words += len(clean_text.split(" "))
+                cleaned_text = clean_text(line)
+                sum_words += len(cleaned_text.split(" "))
         return sum_words
 
     except:
         raise FileNotFoundError
 
-def line_count(d_file):
+def line_count(lines):
     try:
-        return len(d_file.readlines())
+        return len(lines)
 
     except:
         raise FileNotFoundError
 
-def most_common_word(d_file):
+def most_common_letter(lines):
     letters = ""
     try:
-        lines = d_file.readlines()
         for line in lines:
-            clean_text = line.strip()
-            letters = "".join(clean_text.split())
+            cleaned_text = clean_text(line)
+            letters = "".join(cleaned_text.split())
             letters += letters
 
         counter = Counter(letters)
-        return counter.most_common(1)
+        return counter.most_common(1)[0]
 
     except:
         raise FileNotFoundError
 
-def average_letters(d_file):
+def average_letters(lines):
     list_words_count = []
-
-    lines = d_file.readlines()
     for line in lines:
-        clean_text = line.strip()
-        [list_words_count.append(len(x)) for x in clean_text.split(" ")]
+        cleaned_text = clean_text(line)
+        [list_words_count.append(len(x)) for x in cleaned_text.split(" ")]
 
-    return int(sum(list_words_count) / len(list_words_count))
+    return round(sum(list_words_count) / len(list_words_count), 1)
+    
+
+if __name__ == "__main__":
+    print(f"Average number of letters per word:- {average_letters(lines)}")
+    print(f"Most common letter:- {most_common_letter(lines)}")
+    print(f"Line Count:- {line_count(lines)}")
+    print(f"Word Count:- {word_count(lines)}")
